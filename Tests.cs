@@ -1,14 +1,9 @@
-using Newtonsoft.Json;
-using NUnit.Framework;
+Ôªøusing NUnit.Framework;
 using NUnit.Framework.Internal;
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace Test_API
 {
     public class Tests
     {
@@ -17,7 +12,7 @@ namespace ConsoleApp1
         public async Task PostRequest()
         {
             var result = await ServiceHelper.PostRequestAsync_post();
-            Console.WriteLine("ŒÚ‚ÂÚ Ì‡ Á‡ÔÓÒ:");
+            Console.WriteLine("–û—Ç–≤–µ—Ç –Ω–∞ –∑–∞–ø—Ä–æ—Å:");
             Console.WriteLine(result);
             StringAssert.Contains("{\"data\":{\"country\":{\"code\":\"RU\",\"name\":\"Russia\"}}}", result);
         }
