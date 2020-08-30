@@ -57,5 +57,16 @@ namespace Test_API
             Console.WriteLine(myDeserializedClass.data.country.code);
             return myDeserializedClass;
         }
+        public static async Task<object> get_Country_by_code()
+        {
+            var q3 = "{\"query\":\"query {country(code:\\\"RU\\\"){code name capital}}\"}";
+            using var httpResponseMessage =
+                await _httpClient.PostAsync(_httpClient.BaseAddress, new StringContent(q3, Encoding.UTF8, "application/json"));
+            httpResponseMessage.EnsureSuccessStatusCode();
+            using var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var streamReader = new StreamReader(stream);
+            var response = streamReader.ReadToEnd();
+            return response;
+        }
     }
 }

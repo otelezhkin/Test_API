@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using NUnit.Framework.Internal;
+using Shouldly;
 using System;
 using System.Threading.Tasks;
 
@@ -11,10 +13,10 @@ namespace Test_API
         [Test]
         public async Task PostRequest()
         {
-            var result = await ServiceHelper.PostRequestAsync_post();
+            var result = await ServiceHelper.get_Country_by_code();
             Console.WriteLine("Ответ на запрос:");
             Console.WriteLine(result);
-            StringAssert.Contains("{\"data\":{\"country\":{\"code\":\"RU\",\"name\":\"Russia\"}}}", result);
+            result.ShouldContain("{\"data\":{\"country\":{\"code\":\"RU\",\"name\":\"Russia\"}}}");
         }
         [Test]
         public async Task PostRequest_2()
