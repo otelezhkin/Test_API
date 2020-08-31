@@ -17,13 +17,11 @@ namespace Test_API
             using var httpResponseMessage =
                 await _httpClient.GetAsync($"{_httpClient.BaseAddress}?{queryParamsBuilder}");
             httpResponseMessage.EnsureSuccessStatusCode();
-            using (var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            using (var streamReader = new StreamReader(stream))
-            {
-                var result = streamReader.ReadToEnd();
-                Console.WriteLine(result);
-                return result;
-            }
+            using var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var streamReader = new StreamReader(stream);
+            var result = streamReader.ReadToEnd();
+            Console.WriteLine(result);
+            return result;
         }
         public static async Task<string> PostRequestAsync_post()
         {
@@ -59,26 +57,26 @@ namespace Test_API
         }
         public static async Task<string> get_Country_by_code(string countryCode)
         {
-            var q4 = "{\"query\":\"query {country(code:\\\"" + countryCode + "\\\"){code name capital}}\"}";
-            Console.WriteLine("Выполнение запроса:" + q4);
-            using var httpResponseMessage =
-                await _httpClient.PostAsync(_httpClient.BaseAddress, new StringContent(q4, Encoding.UTF8, "application/json"));
-            httpResponseMessage.EnsureSuccessStatusCode();
-            using var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            using var streamReader = new StreamReader(stream);
-            var response = streamReader.ReadToEnd();
+            var query = "{\"query\":\"query {country(code:\\\"" + countryCode + "\\\"){code name capital}}\"}";
+            var response = await Request.sendRequest(query);
             return response;
         }
         public static async Task<string> get_Language_by_code(string languageCode)
         {
-            var q4 = "{\"query\":\"query {language(code:\\\"" + languageCode + "\\\"){code name native rtl}}\"}";
-            Console.WriteLine("Выполнение запроса:" + q4);
-            using var httpResponseMessage =
-                await _httpClient.PostAsync(_httpClient.BaseAddress, new StringContent(q4, Encoding.UTF8, "application/json"));
-            httpResponseMessage.EnsureSuccessStatusCode();
-            using var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            using var streamReader = new StreamReader(stream);
-            var response = streamReader.ReadToEnd();
+            var query = "{\"query\":\"query {language(code:\\\"" + languageCode + "\\\"){code name native rtl}}\"}";
+            var response = await Request.sendRequest(query);
+            return response;
+        }
+        public static async Task<string> get_Languages_by_filter_empty()
+        {
+            var query = "{\"query\":\"query {languages{code name native rtl}}\"}";
+            var response = await Request.sendRequest(query);
+            return response;
+        }
+        public static async Task<string> get_Languages_by_filter_codeEqual(string languageCode)
+        {
+            var query = "{\"query\":\"query {languages(filter:{code:{eq:\\\"" + languageCode + "\\\"}}){code name native rtl}}\"}";
+            var response = await Request.sendRequest(query);
             return response;
         }
     }
