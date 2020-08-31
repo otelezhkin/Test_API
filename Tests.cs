@@ -11,22 +11,26 @@ namespace Test_API
     {
 
         [Test]
-        public async Task PostRequest()
+        public async Task Test_Country_by_code_RU()
         {
-            var result = await ServiceHelper.get_Country_by_code();
+            var result = await ServiceHelper.get_Country_by_code("RU");
             Console.WriteLine("Ответ на запрос:");
             Console.WriteLine(result);
-            result.ShouldContain("{\"data\":{\"country\":{\"code\":\"RU\",\"name\":\"Russia\"}}}");
+            Root object_Country = JsonConvert.DeserializeObject<Root>(result);
+            object_Country.data.country.code.ShouldContain("RU");
+            object_Country.data.country.name.ShouldContain("Russia");
+            object_Country.data.country.capital.ShouldContain("Moscow");
         }
         [Test]
-        public async Task PostRequest_2()
+        public async Task Test_Country_by_code_UA()
         {
-            var result = await ServiceHelper.PostRequestAsync_post_return_object();
-            //Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(result);
-            //Console.WriteLine("Code:" + myDeserializedClass.data.country.code);
-            //Console.WriteLine("Name:" + myDeserializedClass.data.country.name);
-            //StringAssert.Contains("RU", myDeserializedClass.data.country.code);
-            //StringAssert.Contains("Russia", myDeserializedClass.data.country.name);
+            var result = await ServiceHelper.get_Country_by_code("UA");
+            Console.WriteLine("Ответ на запрос:");
+            Console.WriteLine(result);
+            Root object_Country = JsonConvert.DeserializeObject<Root>(result);
+            object_Country.data.country.code.ShouldContain("UA");
+            object_Country.data.country.name.ShouldContain("Ukraine");
+            object_Country.data.country.capital.ShouldContain("Kyiv");
         }
     }
 }

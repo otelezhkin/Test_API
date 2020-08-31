@@ -57,11 +57,12 @@ namespace Test_API
             Console.WriteLine(myDeserializedClass.data.country.code);
             return myDeserializedClass;
         }
-        public static async Task<object> get_Country_by_code()
+        public static async Task<string> get_Country_by_code(string countryCode)
         {
-            var q3 = "{\"query\":\"query {country(code:\\\"RU\\\"){code name capital}}\"}";
+            var q4 = "{\"query\":\"query {country(code:\\\"" + countryCode + "\\\"){code name capital}}\"}";
+            Console.WriteLine("Выполнение запроса:" + q4);
             using var httpResponseMessage =
-                await _httpClient.PostAsync(_httpClient.BaseAddress, new StringContent(q3, Encoding.UTF8, "application/json"));
+                await _httpClient.PostAsync(_httpClient.BaseAddress, new StringContent(q4, Encoding.UTF8, "application/json"));
             httpResponseMessage.EnsureSuccessStatusCode();
             using var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
             using var streamReader = new StreamReader(stream);

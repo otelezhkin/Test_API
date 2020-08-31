@@ -1,6 +1,5 @@
 ﻿namespace Test_API
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
     public class Country
     {
         public string code { get; set; }
