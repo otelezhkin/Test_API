@@ -69,5 +69,17 @@ namespace Test_API
             var response = streamReader.ReadToEnd();
             return response;
         }
+        public static async Task<string> get_Language_by_code(string languageCode)
+        {
+            var q4 = "{\"query\":\"query {language(code:\\\"" + languageCode + "\\\"){code name native rtl}}\"}";
+            Console.WriteLine("Выполнение запроса:" + q4);
+            using var httpResponseMessage =
+                await _httpClient.PostAsync(_httpClient.BaseAddress, new StringContent(q4, Encoding.UTF8, "application/json"));
+            httpResponseMessage.EnsureSuccessStatusCode();
+            using var stream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var streamReader = new StreamReader(stream);
+            var response = streamReader.ReadToEnd();
+            return response;
+        }
     }
 }
