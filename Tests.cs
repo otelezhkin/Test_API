@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using Shouldly;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Test_API
@@ -66,6 +68,15 @@ namespace Test_API
             object_Languages.data.languages[0].name.ShouldContain("English");
             object_Languages.data.languages[0].native.ShouldContain("English");
             object_Languages.data.languages[0].rtl.ShouldContain("false");
+        }
+        [Test]
+        public async Task Test_Languages_by_filter_empty()
+        {
+            var result = await ServiceHelper.get_Languages_by_filter_empty();
+            Root object_Languages = JsonConvert.DeserializeObject<Root>(result);
+            var languages = object_Languages.data.languages;
+            var search = languages.Where(languages => languages.code == "af");
+            //Console.WriteLine(languages);
         }
     }
 }
