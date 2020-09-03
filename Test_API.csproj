@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <StartupObject>Microsoft.VisualStudio.TestPlatform.TestHost.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
