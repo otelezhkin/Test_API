@@ -74,9 +74,8 @@ namespace Test_API
         {
             var result = await ServiceHelper.get_Languages_by_filter_empty();
             Root object_Languages = JsonConvert.DeserializeObject<Root>(result);
-            var languages = object_Languages.data.languages;
-            var search = languages.Where(languages => languages.code == "af");
-            //Console.WriteLine(languages);
+            var test = object_Languages.data.languages.Where(object_Languages => object_Languages.code == "af");
+            Root object_test = JsonConvert.DeserializeObject<Root>(test);
         }
     }
 }
