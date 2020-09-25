@@ -79,5 +79,17 @@ namespace Test_API
             var response = await Request.sendRequest(query);
             return response;
         }
+        public static async Task<string> get_Countries_by_filter_empty()
+        {
+            var query = "{\"query\":\"query {countries{code name capital}}\"}";
+            var response = await Request.sendRequest(query);
+            return response;
+        }
+        public static async Task<string> get_Countries_by_filter_codeEqual(string countryCode)
+        {
+            var query = "{\"query\":\"query {countries(filter:{code:{eq:\\\"" + countryCode + "\\\"}}){code name capital}}\"}";
+            var response = await Request.sendRequest(query);
+            return response;
+        }
     }
 }

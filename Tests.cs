@@ -75,12 +75,65 @@ namespace Test_API
             var result = await ServiceHelper.get_Languages_by_filter_empty();
             Root object_Languages = JsonConvert.DeserializeObject<Root>(result);
             object_Languages.data.languages.Count().ShouldBe(114);
-            //Console.WriteLine("Out line: " + object_Languages.data.languages.Any(lst => lst.code == "af"));
-            //var test = object_Languages.data.languages.First(lst => lst.code == "af");
-            //Console.WriteLine(test.code);
-            //Console.WriteLine(test.name);
-            //var count = object_Languages.data.languages.Count();
-            //Console.WriteLine("Count: " + count);
+        }
+        [Test]
+        public async Task Test_Countries_by_filter_empty()
+        {
+            var result = await ServiceHelper.get_Countries_by_filter_empty();
+            Root object_Countries = JsonConvert.DeserializeObject<Root>(result);
+            object_Countries.data.countries.Count().ShouldBe(250);
+        }
+        [Test]
+        public async Task Test_Countries_by_filter_codeEqual_GB()
+        {
+            var result = await ServiceHelper.get_Countries_by_filter_codeEqual("GB");
+            Root object_Countries = JsonConvert.DeserializeObject<Root>(result);
+            var countCountries = object_Countries.data.countries.Count();
+            if (countCountries != 1)
+            {
+                throw new Exception("Количество стран в ответе не равно 1");
+            }
+            else
+            {
+                object_Countries.data.countries[0].code.ShouldContain("GB");
+                object_Countries.data.countries[0].name.ShouldContain("United Kingdom");
+                object_Countries.data.countries[0].capital.ShouldContain("London");
+            }
+        }
+        [Test]
+        public async Task Test_Countries_by_filter_codeEqual_RU()
+        {
+            var result = await ServiceHelper.get_Countries_by_filter_codeEqual("RU");
+            Root object_Countries = JsonConvert.DeserializeObject<Root>(result);
+            var countCountries = object_Countries.data.countries.Count();
+            if (countCountries != 1)
+            {
+                throw new Exception("Количество стран в ответе не равно 1");
+            }
+            else
+            {
+                object_Countries.data.countries[0].code.ShouldContain("RU");
+                object_Countries.data.countries[0].name.ShouldContain("Russia");
+                object_Countries.data.countries[0].capital.ShouldContain("Moscow");
+            }
+        }
+        [Test]
+        public async Task Test_Countries_by_filter_empty_find_in_array_RU()
+        {
+            var result = await ServiceHelper.get_Countries_by_filter_empty();
+            Root object_Countries = JsonConvert.DeserializeObject<Root>(result);
+            object_Countries.data.countries.Count().ShouldBe(250);
+            var countCountries = object_Countries.data.countries.Count(lst => lst.code == "RU");
+            if (countCountries != 1)
+            {
+                throw new Exception("Количество найденных элементов в списке не равно 1");
+            }
+            else
+            {
+                object_Countries.data.countries.First(lst => lst.code == "RU").code.ShouldContain("RU");
+                object_Countries.data.countries.First(lst => lst.code == "RU").name.ShouldContain("Russia");
+                object_Countries.data.countries.First(lst => lst.code == "RU").capital.ShouldContain("Moscow");
+            }
         }
     }
 }

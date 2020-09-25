@@ -20,6 +20,7 @@ namespace Test_API
         public Country country { get; set; }
         public Language language { get; set; }
         public List<Language> languages { get; set; }
+        public List<Country> countries { get; set; }
     }
     public class Root
     {
