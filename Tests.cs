@@ -74,8 +74,13 @@ namespace Test_API
         {
             var result = await ServiceHelper.get_Languages_by_filter_empty();
             Root object_Languages = JsonConvert.DeserializeObject<Root>(result);
-            var test = object_Languages.data.languages.Where(object_Languages => object_Languages.code == "af");
-            Root object_test = JsonConvert.DeserializeObject<Root>(test);
+            object_Languages.data.languages.Count().ShouldBe(114);
+            //Console.WriteLine("Out line: " + object_Languages.data.languages.Any(lst => lst.code == "af"));
+            //var test = object_Languages.data.languages.First(lst => lst.code == "af");
+            //Console.WriteLine(test.code);
+            //Console.WriteLine(test.name);
+            //var count = object_Languages.data.languages.Count();
+            //Console.WriteLine("Count: " + count);
         }
     }
 }
